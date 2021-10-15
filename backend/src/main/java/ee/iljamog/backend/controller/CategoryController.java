@@ -1,5 +1,4 @@
 package ee.iljamog.backend.controller;
-
 import ee.iljamog.backend.model.Category;
 import ee.iljamog.backend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
