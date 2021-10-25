@@ -22,14 +22,13 @@ function Home() {
 
   return (
     <div>
-      <Link to="categories">
-        <button>Kategooriaid</button>
-      </Link>
-      <br/>
       <Link to="add-item">
-        <button>Lisa uus ese</button>
+        <button className="goToNewPage"><img className="addLogo" src="add.png" alt="add icon"/> Lisa uus ese</button>
       </Link>
-      <ItemList items={loadedItems}/>
+      <h1>Esemed</h1>
+      <div className="itemsPageBoxesArea">
+        <ItemList items={loadedItems}/>
+      </div>
     </div>
   )
 }

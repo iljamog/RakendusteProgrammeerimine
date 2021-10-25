@@ -1,6 +1,6 @@
 function Category(props) {
   return (
-    <div>
+    <div className="categoryContainer">
       <div className="categoryName">{props.name}</div>
       <div className="categoryType">{props.type}</div>
     </div>

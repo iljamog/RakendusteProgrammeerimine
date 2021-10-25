@@ -23,9 +23,12 @@ function CategoryPage() {
   return (
     <div>
       <Link to="add-category">
-        <button>Lisa uus kategooria</button>
+        <button className="goToNewPage"><img className="addLogo" src="add-folder.png" alt="add icon"/> Lisa uus kategooria</button>
       </Link>
-      <CategoryList categories={loadedCategories}/>
+      <h1>Kategooriad</h1>
+      <div className="categoriesPageBoxesArea">
+        <CategoryList categories={loadedCategories}/>
+      </div>
     </div>
   )
 }
