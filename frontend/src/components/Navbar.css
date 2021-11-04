@@ -16,9 +16,22 @@
   font-weight: 600;
   margin: 10px;  
   display: inline-block;
+  margin-top: 35%;  
+  padding: 0.5em;
+  border-radius: 10px;
+
+}
+
+.navbarMiddle :hover {
+  background-color: whitesmoke;
 }
 
 .cart{
   height: 40px;
   margin: 50px;
+}
+
+.logo {
+  height: 60px;
+  margin: 40px;
 }
