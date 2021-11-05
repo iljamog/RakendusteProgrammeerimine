@@ -13,7 +13,7 @@ function Header() {
   }
 
   return(
-    <Menu selectedKeys={[current]}>
+    <Menu theme="dark" mode="horizontal" selectedKeys={[current]}>
       <Menu.Item key={''} onClick={e => setCurrent(e.key)}>
         <Link to="/">Home</Link>
       </Menu.Item>
@@ -22,9 +22,9 @@ function Header() {
       </Menu.Item>
       {state.auth.token &&
         (
-          <Menu.Item key={'logout'} onClick={e => setCurrent(e.key)}>
-            <Link to="#" onClick={handleLogout}>Logout</Link>
-          </Menu.Item>
+      <Menu.Item key={'logout'} onClick={e => setCurrent(e.key)}>
+        <Link to="#" onClick={handleLogout}>Logout</Link>
+      </Menu.Item>
         )
       }
       {!state.auth.token &&

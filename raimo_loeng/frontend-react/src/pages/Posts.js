@@ -1,5 +1,5 @@
 import { useContext, useRef, useState, useEffect } from "react"
-import { Typography, Input, Button, Table } from 'antd';
+import { Input, Button, Table } from 'antd';
 import { Context } from "../store"
 import { addPost, removePost, updatePosts } from "../store/actions"
 
@@ -8,7 +8,6 @@ function Posts() {
   const [state, dispatch] = useContext(Context)
   const inputRef = useRef(null)
 
-  const { Title } = Typography
   const cols = [
     {
       title: 'ID',
@@ -86,7 +85,6 @@ function Posts() {
 
   return(
     <div style={{ textAlign: "center" }}>
-      <Title>Posts</Title>
       {state.auth.token &&
         (
           <form onSubmit={handleSubmit}>

@@ -5,6 +5,7 @@ import React from 'react';
 import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
 import { Layout } from 'antd';
+import "antd/dist/antd.css";
 import Register from './pages/Register';
 import Login from './pages/Login';
 
