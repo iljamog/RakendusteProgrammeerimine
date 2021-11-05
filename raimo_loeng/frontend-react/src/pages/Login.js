@@ -3,7 +3,7 @@ import { Form, Input, Button, Typography } from 'antd';
 import { Context } from "../store";
 import { loginUser } from '../store/actions';
 
-const Login = () => {
+const Login = ({history}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -33,6 +33,7 @@ const Login = () => {
     if(returnData.token) {
       console.log("Successfully logged in")
       dispatch(loginUser(returnData))
+      history.push("/posts")
     } else {
       let errors = ''
         if (returnData.error) {

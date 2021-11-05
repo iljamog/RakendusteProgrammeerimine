@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { Redirect } from 'react-router-dom';
 import { Form, Input, Button, Typography } from 'antd';
 
-function Register() {
+function Register({history}) {
   // const [firstName, setFirstName] = useState('')
   // const [lastName, setLastName] = useState('')
   // const [email, setEmail] = useState('')
@@ -42,6 +43,7 @@ function Register() {
       if (res.ok) {
         setError('')
         console.log("Success! User registered!")
+        history.push("/posts")
       } else {
         let errors = ''
         if (returnData.error) {

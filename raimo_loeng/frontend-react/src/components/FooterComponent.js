@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function FooterComponent() {
     return (
-        <footer tyle={{textAlign: 'center'}}>
+        <footer style={{textAlign: 'center'}}>
             FOOTER
         </footer>
     )
