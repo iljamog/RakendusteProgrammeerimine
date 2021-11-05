@@ -1,3 +1,5 @@
+![](screen123.gif)
+
 ## Lokaalne setup
 
 - Navigeeri kausta `local-dev`
