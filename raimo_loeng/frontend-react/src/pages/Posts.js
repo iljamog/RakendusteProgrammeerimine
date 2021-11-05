@@ -1,90 +1,111 @@
-import { useContext, useState, useRef, useEffect } from "react";
-import { Context } from "../store";
-import { addPost, removePost, updatePosts } from "../store/actions";
+import { useContext, useRef, useState, useEffect } from "react"
+import { Typography, Input, Button, Table } from 'antd';
+import { Context } from "../store"
+import { addPost, removePost, updatePosts } from "../store/actions"
 
 function Posts() {
-  const [title, setTitle] = useState("");
-  const [state, dispatch] = useContext(Context);
-  const inputRef = useRef(null);
+  const [title, setTitle] = useState("")
+  const [state, dispatch] = useContext(Context)
+  const inputRef = useRef(null)
 
-  // Ilma dependency massivita ehk ilma [] kutsub välja igal renderdusel
-  // tühja massiivi dependencyna esimest korda
-  // saab ka kutsuda teatud state muutustel välja
+  const { Title } = Typography
+  const cols = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'Post',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'Author',
+      dataIndex: 'authorId',
+      key: 'authorId',
+    },
+    {
+      title: 'Created At',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+    },
+    {
+      title: 'Last Modified',
+      dataIndex: 'lastModified',
+      key: 'lastModified',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Button key={record.id} type="link" onClick={() => dispatch(removePost(record.id))}>Delete</Button>
+      ),
+    },
+  ]
+
+  // Ilma dependency massiivita - igal renderdusel
+  // Tühja massiiviga [] - esimesel korral
+  // Saab ka kutsuda teatud state muutustel välja [state] / [title] jne
   useEffect(() => {
-    dispatch(updatePosts([
-      {
-        id: 1,
-        title: "Test-prefetched-array-1"
-      },
-      {
-        id: 2,
-        title: "Test-prefetched-array-2"
-      },
-      {
-        id: 3,
-        title: "Test-prefetched-array-3"
-      },
-      {
-        id: 4,
-        title: "Test-prefetched-array-4"
-      },
-    ]))
-  }, [])
-
-  // Või võite panna eraldi nupu, et "Get latest from database" (Sync)
+    fetch('http://localhost:8081/api/post').then(res => {
+      return res.json();
+    }).then(async (data) => {
+      await dispatch(updatePosts(data))
+    })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    setTitle("");
-
-    addNewPost()
-
-    if (inputRef.current) inputRef.current.focus();
-  };
-
-
-  const addNewPost = () => {
     const newPost = {
-      id: Date.now(),
       title,
-    };
+      authorId: state.auth.user.id,
+    }
 
-    // Salvestame andmebaasi ja kui on edukas, 
-    // siis teeme dispatchi ja uuendame state lokaalselt
+    setTitle("")
 
-    dispatch(addPost(newPost));
-  };
+    addNewPost(newPost)
 
-  console.log({ inputRef });
+    if (inputRef.current) inputRef.current.focus()
+  }
 
-  return (
+  const addNewPost = async (post) => {
+    const res = await fetch('http://localhost:8081/api/post/create', {
+    method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+        body: JSON.stringify(post),
+    })
+
+    const returnData = await res.json()
+
+    dispatch(addPost(returnData))
+  }
+
+  return(
     <div style={{ textAlign: "center" }}>
-      <h1>Posts</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          ref={inputRef}
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          autoFocus
-        />
-        <button type="submit">Submit</button>
-      </form>
+      <Title>Posts</Title>
+      {state.auth.token &&
+        (
+          <form onSubmit={handleSubmit}>
+            <Input
+              style={{margin: '10px', maxWidth: '50%'}}
+              ref={inputRef}
+              type="text"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              autoFocus
+            />
+            <Button htmlType="submit" type="primary">Submit</Button>
+          </form>
+        )
+      }
 
-      {state.posts.data.map((e) => (
-        <li key={e.id}>
-          {e.id} {e.title}
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => dispatch(removePost(e.id))}
-          >
-            &#128540;
-          </span>
-        </li>
-      ))}
+      <Table columns={cols} dataSource={state.posts.data} rowKey='id' />
     </div>
-  );
+  )
 }
 
-export default Posts;
+export default Posts

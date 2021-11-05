@@ -6,50 +6,47 @@ exports.login = async (req, res) => {
   const { email, password } = req.body
 
   try {
-
     const user = await User.findOne({ email })
 
-    if (!user) throw Error("E-mail not registered")
-    const isMatch = await bcrypt.compare(password, user.password)
+    if (!user) throw Error("User with this e-mail does not exist")
 
-    if (!isMatch) throw Error("Wrong password")
+    const isMatch = bcrypt.compare(password, user.password)
+    if (!isMatch) throw Error("I should not say that the password does not match")
 
     const userTemplate = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email
+      }
     }
 
     const token = jwt.sign(userTemplate, process.env.JWT_SECRET)
-    if (!token) throw Error("Something critical happened 99981811")
+    if (!token) throw Error("Something critical happened 720631")
 
     res.status(200).json({
       token,
       ...userTemplate
     })
-
-  } catch (e){
-    res.status(400).json({ error: e.message })
+  } catch (e) { 
+    res.status(400).json({ error: e.message})
   }
 }
 
 exports.signup = async (req, res) => {
-
   const { firstName, lastName, email, password } = req.body
 
   try {
     const user = await User.findOne({ email })
 
-    if (user) throw Error("User with this e-mail already exists")
+    if (user) throw Error("User with that e-mail already exists")
 
     const salt = await bcrypt.genSalt(10)
-
-    if (!salt) throw Error("Something critical happened 483543875")
+    if (!salt) throw Error("Something critical happened 356457")
 
     const hash = await bcrypt.hash(password, salt)
-    
-    if (!hash) throw Error("Something critical happened 123172387")
+    if (!hash) throw Error("Something critical happened 123415")
 
     const newUser = new User({
       firstName,
@@ -62,7 +59,8 @@ exports.signup = async (req, res) => {
     if (!savedUser) throw Error("Error saving user")
 
     res.status(200).json({ message: "User created successfully" })
+
   } catch (e) {
-    res.status(400).json({ error: e.message })
+    res.status(400).json({error: e.message})
   }
 }

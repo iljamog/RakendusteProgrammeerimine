@@ -2,6 +2,8 @@ import { createContext, useReducer } from "react";
 import { postReducer, authReducer } from "./reducer";
 import combineReducers from "react-combine-reducers"
 
+// Request initial data from database
+
 const initialPosts = {
   data: []
 }
@@ -18,7 +20,7 @@ const [combinedReducer, initialState] = combineReducers({
 
 export const Context = createContext(initialState)
 
-function Store({ children }){
+function Store({ children }) {
   const [state, dispatch] = useReducer(combinedReducer, initialState)
 
   return (
