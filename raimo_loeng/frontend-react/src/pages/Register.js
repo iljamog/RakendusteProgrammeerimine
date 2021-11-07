@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Redirect } from 'react-router-dom';
 import { Form, Input, Button, Typography } from 'antd';
 
 function Register({history}) {

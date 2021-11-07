@@ -5,8 +5,10 @@ h1 {
 button {
   cursor: pointer;
   border-radius: 3px;
-  border: black 1px solid;
+  border: rgb(145, 145, 145) 2px solid;
   padding: 5px;
+  background-color: skyblue;
+  font-weight: 450;
 }
 
 button:hover {
@@ -15,4 +17,9 @@ button:hover {
 
 select {
   cursor: pointer;
+}
+
+input{
+  border-radius: 3px;
+  border: rgb(145, 145, 145) 2px solid;
 }
